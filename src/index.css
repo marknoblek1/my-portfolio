@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Montserrat", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-serif-brand: "Playfair Display", Georgia, serif;
+  --font-sf-pro: "SF Pro Display", "SF Pro", -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif;
+  --font-satoshi: "Satoshi", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+@layer utilities {
+  .font-sf-pro {
+    font-family: var(--font-sf-pro);
+  }
+
+  .font-satoshi {
+    font-family: var(--font-satoshi);
+  }
+}
+
+@layer base {
+  html {
+    background-color: #080809;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
