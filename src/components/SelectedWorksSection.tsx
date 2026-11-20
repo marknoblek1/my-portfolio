@@ -25,11 +25,11 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
 
       <div className="relative z-10 mx-auto max-w-[1180px] px-6 sm:px-10">
         {/* Section Heading */}
-        <h2 className="mb-[24px] flex items-baseline gap-2.5 tracking-tight leading-none">
+        <h2 className="mb-[24px] flex items-baseline gap-1.5 tracking-tight leading-none">
           <span className="font-satoshi text-[18px] font-medium text-white">
             Selected
           </span>
-          <span className="font-satoshi text-[42px] font-bold text-[#E61C45] leading-none">
+          <span className="font-satoshi text-[18px] font-bold text-[#E61C45] leading-none">
             Works
           </span>
         </h2>

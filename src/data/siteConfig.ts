@@ -39,7 +39,7 @@ export const siteConfig = {
     /**
      * Add your full LinkedIn URL when ready (e.g. "https://www.linkedin.com/in/mark-noble").
      */
-    linkedinUrl: '',
+    linkedinUrl: 'https://www.linkedin.com/in/noble-mark-b05208282',
     ctaTitle: "Let's work together",
     ctaSubtitle:
       "Have a project in mind or you want to say hi ? I'd love to hear from you.",
@@ -66,6 +66,10 @@ export const siteConfig = {
     { id: 'x', label: 'X (Twitter)', url: '' },
     { id: 'dribbble', label: 'Dribbble', url: '' },
     { id: 'behance', label: 'Behance', url: '' },
-    { id: 'linkedin', label: 'LinkedIn', url: '' },
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/noble-mark-b05208282',
+    },
   ] as SocialLinkItem[],
 };
