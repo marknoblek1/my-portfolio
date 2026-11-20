@@ -50,7 +50,7 @@ export const projects: ProjectShowcase[] = [
     imageSrc: '/assets/aistudio/Klusta_Image_b70eb793.png',
     imageAlt: 'Klusta real estate and accommodation mobile application showcase',
     externalUrl:
-      'https://bronzed-jester-4e3.notion.site/Klusta-Case-Study-382db7a4601f80a48dbefcf4249a0ab7',
+      'https://bronzed-jester-4e3.notion.site/Klusta-Case-Study-382db7a4601f80a48dbefcf4249a0ab7?source=copy_link',
     placeholderScreens: {
       leftTitle: 'Welcome',
       centerTitle: 'Property Listing',
@@ -82,7 +82,7 @@ export const projects: ProjectShowcase[] = [
     imageSrc: '/assets/aistudio/Avoir_Image_1cbbb54a.png',
     imageAlt: 'AVOIR furniture shopping mobile interface showcase',
     externalUrl:
-      'https://bronzed-jester-4e3.notion.site/Avoir-Case-Study-3ebdb7a4601f80d3b355e4b224ed17a4',
+      'https://bronzed-jester-4e3.notion.site/Avoir-Case-Study-3ebdb7a4601f80d3b355e4b224ed17a4?source=copy_link',
     placeholderScreens: {
       leftTitle: 'Payment Methods',
       centerTitle: 'Storefront Home',
@@ -115,7 +115,7 @@ export const projects: ProjectShowcase[] = [
     imageSrc: '/assets/aistudio/Onyx_image_b7c95d57.png',
     imageAlt: 'ONYX cryptocurrency wallet mobile application showcase',
     externalUrl:
-      'https://bronzed-jester-4e3.notion.site/Onyx-Case-Study-383db7a4601f80a28300eb3f98b235ff',
+      'https://bronzed-jester-4e3.notion.site/Onyx-Case-Study-383db7a4601f80a28300eb3f98b235ff?source=copy_link',
     placeholderScreens: {
       leftTitle: 'Asset Markets',
       centerTitle: 'Wallet Overview',

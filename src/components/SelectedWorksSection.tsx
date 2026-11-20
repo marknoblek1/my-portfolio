@@ -29,7 +29,7 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
           <span className="font-satoshi text-[18px] font-medium text-white">
             Selected
           </span>
-          <span className="font-satoshi text-[18px] font-bold text-[#E61C45] leading-none">
+          <span className="font-satoshi text-[18px] font-bold text-white leading-none">
             Works
           </span>
         </h2>
@@ -153,9 +153,7 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
 
                     <p className="mt-[16px] font-satoshi text-[16px] font-light leading-[1.65] text-white max-w-[440px]">
                       {project.descriptionPrefix}
-                      <span className="font-satoshi text-[18px] font-medium text-[#E61C45]">
-                        {project.descriptionHighlight}
-                      </span>
+                      <span>{project.descriptionHighlight}</span>
                       {project.descriptionSuffix}
                     </p>
 
