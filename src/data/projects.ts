@@ -38,33 +38,33 @@ export interface ProjectShowcase {
 
 export const projects: ProjectShowcase[] = [
   {
-    id: 'avoir-real-estate',
-    title: 'AVOIR',
+    id: 'klusta-stays',
+    title: 'KLUSTA',
     category: 'Mobile App',
     descriptionPrefix:
-      'AVOIR is a mobile application for real estate and curated living, designed to help users browse, ',
-    descriptionHighlight: 'book properties, and furnish modern living spaces.',
+      'A short-stay leasing platform connecting homeowners with visitors seeking comfortable places to stay. Klusta makes it easier to discover and lease homes for short-term stays.',
+    descriptionHighlight: '',
     descriptionSuffix: '',
     imagePosition: 'left',
     theme: 'emerald',
     imageSrc: '/assets/aistudio/Klusta_Image_b70eb793.png',
-    imageAlt: 'Klusta real estate and accommodation mobile application showcase',
+    imageAlt: 'Klusta short-stay leasing mobile application showcase',
     externalUrl:
       'https://bronzed-jester-4e3.notion.site/Klusta-Case-Study-382db7a4601f80a48dbefcf4249a0ab7?source=copy_link',
     placeholderScreens: {
       leftTitle: 'Welcome',
       centerTitle: 'Property Listing',
       rightTitle: 'Booking Summary',
-      subtitle: 'Real Estate & Furniture Showcase',
+      subtitle: 'Short-Stay Leasing Showcase',
     },
     caseStudySummary: {
       role: 'Lead Product Designer',
       platform: 'iOS & Android Mobile App',
       overview:
-        'An end-to-end real estate discovery, stay reservation, and interior furnishing experience unifying property booking with curated furniture placement.',
+        'A short-stay leasing platform connecting homeowners with visitors seeking comfortable places to stay, making it easier to discover and lease homes for short-term stays.',
       deliverables: [
         'User Flows & Information Architecture',
-        'Mobile Booking & Checkout UI',
+        'Mobile Discovery & Short-Stay Booking UI',
         'Design System & Component Library',
       ],
     },

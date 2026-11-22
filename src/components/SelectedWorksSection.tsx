@@ -17,10 +17,12 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
       id="work"
       className="relative z-10 w-full pt-4 pb-24 sm:pb-36 scroll-mt-20"
     >
-      {/* Bottom-right 3D rolling crimson & black Orb */}
+      {/* Bottom-right 3D rolling crimson & black Orb #2 */}
       <RollingOrb
-        phaseDelay={-8}
-        className="absolute right-6 sm:right-14 lg:right-28 bottom-4 sm:bottom-8 z-0"
+        duration={12}
+        direction={-1}
+        phaseDelay={-3}
+        className="absolute right-4 sm:right-14 lg:right-28 bottom-4 sm:bottom-8 z-0"
       />
 
       <div className="relative z-10 mx-auto max-w-[1180px] px-6 sm:px-10">
@@ -50,15 +52,18 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
                     isImageLeft ? 'lg:order-1' : 'lg:order-2'
                   }`}
                 >
-                  {/* Row 2 (index 1): Concentric contour beside AVOIR showcase */}
+                  {/* Row 2 (index 1): Flat 2D concentric circle beside AVOIR showcase */}
                   {index === 1 && (
                     <motion.img
                       src="/assets/aistudio/Group_1707478324_e26d13d5.png"
                       alt=""
                       aria-hidden="true"
-                      animate={{ rotate: [0, -360] }}
-                      transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-                      className="hidden lg:block pointer-events-none select-none absolute -right-4 top-6 w-[83px] h-auto z-0"
+                      animate={{ rotate: [0, -360], y: [0, -6, 0] }}
+                      transition={{
+                        rotate: { duration: 10.2, repeat: Infinity, ease: 'linear' },
+                        y: { duration: 4.4, repeat: Infinity, ease: 'easeInOut' },
+                      }}
+                      className="pointer-events-none select-none absolute -right-2 -top-3 sm:-right-3 sm:top-2 lg:-right-4 lg:top-6 w-[44px] sm:w-[60px] lg:w-[83px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                     />
                   )}
                   <div className="relative z-10">
@@ -72,76 +77,97 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
                     isImageLeft ? 'lg:order-2 lg:pt-16' : 'lg:order-1'
                   }`}
                 >
-                  {/* Row 1 (index 0): Klusta / AVOIR text column decorations */}
+                  {/* Row 1 (index 0): Klusta text column flat 2D decorations */}
                   {index === 0 && (
                     <>
                       <motion.img
                         src="/assets/aistudio/Rectangle_369__1__1010c8ab.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, 360] }}
-                        transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute left-[46%] top-[44px] w-[55px] h-auto z-0"
+                        animate={{ rotate: [0, 360], y: [0, -7, 0] }}
+                        transition={{
+                          rotate: { duration: 13.5, repeat: Infinity, ease: 'linear' },
+                          y: { duration: 5.2, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[5%] -top-[18px] sm:right-[6%] lg:left-[46%] lg:right-auto lg:top-[44px] w-[26px] sm:w-[38px] lg:w-[55px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                       <motion.img
                         src="/assets/aistudio/Group_1707478324__1__e26d13d5.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, -360] }}
-                        transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute left-[24%] top-[16px] w-[83px] h-auto z-0"
+                        animate={{ rotate: [0, -360], x: [0, -6, 0] }}
+                        transition={{
+                          rotate: { duration: 9, repeat: Infinity, ease: 'linear' },
+                          x: { duration: 4.6, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[17%] -top-[22px] sm:right-[16%] lg:left-[24%] lg:right-auto lg:top-[16px] w-[42px] sm:w-[58px] lg:w-[83px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                       <motion.img
                         src="/assets/aistudio/Group_1707478319_25e925e1.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, -360] }}
-                        transition={{ duration: 11, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute left-[24%] -bottom-[72px] w-[83px] h-auto z-0"
+                        animate={{ rotate: [0, -360], y: [0, 8, 0] }}
+                        transition={{
+                          rotate: { duration: 11.8, repeat: Infinity, ease: 'linear' },
+                          y: { duration: 5.8, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[3%] -bottom-[20px] lg:left-[24%] lg:right-auto lg:-bottom-[72px] w-[42px] sm:w-[58px] lg:w-[83px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                     </>
                   )}
 
-                  {/* Row 2 (index 1): AVOIR Furniture text column decorations */}
+                  {/* Row 2 (index 1): AVOIR Furniture text column flat 2D decorations */}
                   {index === 1 && (
                     <>
                       <motion.img
                         src="/assets/aistudio/Group_1707478317_fc43df28.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, -360] }}
-                        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute left-[18%] -top-[128px] w-[102px] h-auto z-0"
+                        animate={{ rotate: [0, 360], scale: [1, 1.06, 1] }}
+                        transition={{
+                          rotate: { duration: 15, repeat: Infinity, ease: 'linear' },
+                          scale: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[14%] -top-[26px] sm:right-[16%] lg:left-[18%] lg:right-auto lg:-top-[128px] w-[52px] sm:w-[72px] lg:w-[102px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                       <motion.img
                         src="/assets/aistudio/Group_1707478318_63206bd7.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, -360] }}
-                        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute right-[10%] top-[18px] w-[72px] h-auto z-0"
+                        animate={{ rotate: [0, -360], x: [0, 6, 0] }}
+                        transition={{
+                          rotate: { duration: 12.5, repeat: Infinity, ease: 'linear' },
+                          x: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[4%] -bottom-[16px] lg:right-[10%] lg:bottom-auto lg:top-[18px] w-[38px] sm:w-[54px] lg:w-[72px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                     </>
                   )}
 
-                  {/* Row 3 (index 2): ONYX text column decorations */}
+                  {/* Row 3 (index 2): ONYX text column flat 2D decorations */}
                   {index === 2 && (
                     <>
                       <motion.img
                         src="/assets/aistudio/Rectangle_369_1010c8ab.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, 360] }}
-                        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute left-[46%] -top-[42px] w-[55px] h-auto z-0"
+                        animate={{ rotate: [0, 360], y: [0, 7, 0] }}
+                        transition={{
+                          rotate: { duration: 16.5, repeat: Infinity, ease: 'linear' },
+                          y: { duration: 5.4, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[14%] -top-[20px] sm:right-[16%] lg:left-[46%] lg:right-auto lg:-top-[42px] w-[26px] sm:w-[38px] lg:w-[55px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                       <motion.img
                         src="/assets/aistudio/Group_1707478324__1__e26d13d5.png"
                         alt=""
                         aria-hidden="true"
-                        animate={{ rotate: [0, -360] }}
-                        transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
-                        className="hidden lg:block pointer-events-none select-none absolute left-[52%] -top-[72px] w-[83px] h-auto z-0"
+                        animate={{ rotate: [0, -360], x: [0, -7, 0] }}
+                        transition={{
+                          rotate: { duration: 8.5, repeat: Infinity, ease: 'linear' },
+                          x: { duration: 4.9, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        className="pointer-events-none select-none absolute right-[2%] -top-[22px] sm:right-[4%] lg:left-[52%] lg:right-auto lg:-top-[72px] w-[42px] sm:w-[58px] lg:w-[83px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
                       />
                     </>
                   )}

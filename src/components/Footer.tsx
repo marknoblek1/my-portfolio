@@ -27,12 +27,6 @@ const SocialIconSvg: React.FC<{ id: SocialLinkItem['id'] }> = ({ id }) => {
           <path d="M9.7 11.4c.8-.4 1.3-1.1 1.3-2.1 0-1.8-1.3-2.8-3.4-2.8H2v11h5.8c2.4 0 3.8-1.1 3.8-3.2 0-1.4-.7-2.4-1.9-2.9ZM4.4 8.5h2.7c1 0 1.6.4 1.6 1.2s-.6 1.2-1.6 1.2H4.4V8.5Zm3 7H4.4v-2.7h3c1.1 0 1.8.5 1.8 1.4 0 .9-.7 1.3-1.8 1.3ZM19.9 7.5h-4.6V9h4.6V7.5Zm-2.2 2.4c-2.6 0-4.4 1.8-4.4 4.4s1.7 4.4 4.5 4.4c1.9 0 3.3-.9 4-2.4h-2c-.3.5-.9.9-1.9.9-1.2 0-2.1-.7-2.2-2h6.3c.1-.3.1-.7.1-1 0-2.6-1.7-4.3-4.4-4.3Zm-2.1 3.5c.2-1.1 1-1.9 2.1-1.9 1.1 0 1.9.7 2.1 1.9h-4.2Z" />
         </svg>
       );
-    case 'linkedin':
-      return (
-        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
-          <path d="M6.94 8.5H3.56V19.5H6.94V8.5ZM5.25 3.5C4.14 3.5 3.25 4.39 3.25 5.5C3.25 6.6 4.14 7.5 5.25 7.5C6.35 7.5 7.25 6.6 7.25 5.5C7.25 4.39 6.35 3.5 5.25 3.5ZM20.44 13.02C20.44 9.88 18.76 8.21 16.16 8.21C14.37 8.21 13.48 9.2 13.02 9.93V8.5H9.65C9.7 9.48 9.65 19.5 9.65 19.5H13.02V13.36C13.02 13.02 13.05 12.69 13.15 12.45C13.42 11.78 14.03 11.09 15.07 11.09C16.41 11.09 17.06 12.11 17.06 13.6V19.5H20.44V13.02Z" />
-        </svg>
-      );
   }
 };
 
@@ -66,8 +60,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
       id="contact"
       className="relative z-10 border-t border-white/[0.06] bg-[#0B0B0D] scroll-mt-16"
     >
+      {/* 3-column balanced footer */}
       <div className="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-12 lg:px-8 py-10 sm:py-12">
-        <div className="grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 md:gap-x-12 lg:grid-cols-[1.35fr_0.9fr_0.9fr_auto] lg:gap-10 items-start">
+        <div className="grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 sm:gap-x-10 md:grid-cols-[1.35fr_0.75fr_1.15fr] md:gap-x-10 lg:grid-cols-[1.45fr_0.85fr_auto] lg:gap-x-20 items-start">
           {/* Column 1: Brand Introduction & Direct Contact */}
           <div className="flex flex-col">
             <div className="min-h-[32px] flex items-center mb-3.5">
@@ -143,28 +138,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
             </ul>
           </div>
 
-          {/* Column 3: Resources */}
-          <div className="flex flex-col">
-            <h3 className="min-h-[32px] flex items-center text-[16px] font-semibold text-white mb-3.5">
-              Resources
-            </h3>
-            <ul className="space-y-2.5">
-              {siteConfig.footerResources.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    onClick={(e) => handleLinkClick(e, item)}
-                    className="text-[13.5px] text-zinc-400 hover:text-[#E61C45] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E61C45] rounded-sm"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Let's work together CTA & Socials */}
-          <div className="flex flex-col">
+          {/* Column 3: Let's work together CTA & Socials */}
+          <div className="flex flex-col sm:col-span-2 md:col-span-1">
             <h3 className="min-h-[32px] flex items-center text-[18px] font-medium text-[#E61C45] mb-3.5">
               {siteConfig.contact.ctaTitle}
             </h3>
@@ -182,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
               </a>
             </div>
 
-            {/* Social Icons */}
+            {/* Social Icons: dark minimal styling with subtle border & pink accent */}
             <div className="mt-4 flex items-center gap-3">
               {siteConfig.socialLinks.map((social) =>
                 social.url.trim() ? (
@@ -192,20 +167,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0B0B0D] transition-colors duration-150 hover:bg-[#E61C45] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E61C45]"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E61C45]/35 bg-white/[0.03] text-[#E61C45] transition-colors duration-150 hover:border-[#E61C45] hover:bg-[#E61C45]/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E61C45]"
                   >
                     <SocialIconSvg id={social.id} />
                   </a>
                 ) : (
-                  <button
+                  <span
                     key={social.id}
-                    type="button"
-                    onClick={() => onOpenContact(`${social.label} Profile`)}
+                    role="img"
                     aria-label={social.label}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0B0B0D] transition-colors duration-150 hover:bg-[#E61C45] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E61C45] cursor-pointer"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E61C45]/30 bg-white/[0.03] text-[#E61C45] select-none"
                   >
                     <SocialIconSvg id={social.id} />
-                  </button>
+                  </span>
                 )
               )}
             </div>

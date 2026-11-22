@@ -11,7 +11,7 @@ export interface FooterLinkItem {
 }
 
 export interface SocialLinkItem {
-  id: 'x' | 'dribbble' | 'behance' | 'linkedin';
+  id: 'x' | 'dribbble' | 'behance';
   label: string;
   /**
    * Add your live social profile URL here when ready (e.g. "https://x.com/yourhandle").
@@ -56,20 +56,9 @@ export const siteConfig = {
     { label: 'Services', href: '#work', action: 'scroll' },
     { label: 'Contact', href: '#contact', action: 'contact' },
   ] as FooterLinkItem[],
-  footerResources: [
-    { label: 'Case Studies', href: '#work', action: 'scroll' },
-    { label: 'Resume', href: '#contact', action: 'resume' },
-    { label: 'Design Process', href: '#work', action: 'process' },
-    { label: 'Contact', href: '#contact', action: 'contact' },
-  ] as FooterLinkItem[],
   socialLinks: [
-    { id: 'x', label: 'X (Twitter)', url: '' },
+    { id: 'x', label: 'X (Twitter)', url: 'https://x.com/marknoblek1' },
     { id: 'dribbble', label: 'Dribbble', url: '' },
     { id: 'behance', label: 'Behance', url: '' },
-    {
-      id: 'linkedin',
-      label: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/noble-mark-b05208282',
-    },
   ] as SocialLinkItem[],
 };

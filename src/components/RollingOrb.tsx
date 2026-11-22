@@ -7,6 +7,14 @@ interface RollingOrbProps {
    * Optional negative delay (in seconds) to offset the animation phase.
    */
   phaseDelay?: number;
+  /**
+   * Cycle duration in seconds so each orb rotates independently.
+   */
+  duration?: number;
+  /**
+   * Rotation and rolling direction (1 or -1) so the two orbs move independently.
+   */
+  direction?: 1 | -1;
 }
 
 /**
@@ -17,24 +25,35 @@ interface RollingOrbProps {
 export const RollingOrb: React.FC<RollingOrbProps> = ({
   className = '',
   phaseDelay = 0,
+  duration = 16,
+  direction = 1,
 }) => {
-  // Seamless 16s physics loop:
+  // Seamless physics loop:
   // 0.00 -> 0.28 : 3D sphere rolls smoothly across
   // 0.28 -> 0.46 : Sphere smoothly transitions into oval/rounded capsule mid-roll
   // 0.46 -> 0.78 : Oval rolls end-over-end naturally (with vertical CoM bob)
   // 0.78 -> 1.00 : Smoothly returns to 3D sphere at starting position
   const times = [0, 0.14, 0.28, 0.46, 0.62, 0.78, 0.9, 1];
 
-  const xKeyframes = [20, -110, -240, -320, -180, -40, 10, 20];
+  const xKeyframes =
+    direction === 1
+      ? [20, -110, -240, -320, -180, -40, 10, 20]
+      : [-260, -140, -20, 20, -100, -220, -270, -260];
 
   // Vertical center-of-mass lift while the elongated oval tumbles over its long axis
   const yKeyframes = [0, 0, 0, -6, -18, -6, 0, 0];
 
   // Outer silhouette rotation: stays upright while spherical, tumbles 360deg naturally as oval
-  const shellRotateKeyframes = [0, 0, 0, -90, -180, -270, -360, -360];
+  const shellRotateKeyframes =
+    direction === 1
+      ? [0, 0, 0, -90, -180, -270, -360, -360]
+      : [0, 0, 0, 90, 180, 270, 360, 360];
 
   // Inner surface axial rotation: continuous 720deg spin so sphere axial roll is unmistakable
-  const surfaceRotateKeyframes = [0, -120, -240, -360, -480, -600, -690, -720];
+  const surfaceRotateKeyframes =
+    direction === 1
+      ? [0, -120, -240, -360, -480, -600, -690, -720]
+      : [0, 120, 240, 360, 480, 600, 690, 720];
 
   // Counter-rotate the lighting overlay so the top-left 3D light source remains fixed
   const lightCounterRotateKeyframes = shellRotateKeyframes.map((deg) => -deg);
@@ -54,7 +73,7 @@ export const RollingOrb: React.FC<RollingOrbProps> = ({
   ];
 
   const loopTransition = {
-    duration: 16,
+    duration,
     delay: phaseDelay,
     repeat: Infinity,
     ease: 'easeInOut' as const,
@@ -66,12 +85,14 @@ export const RollingOrb: React.FC<RollingOrbProps> = ({
       aria-hidden="true"
       className={`pointer-events-none select-none ${className}`}
     >
-      {/* Horizontal rolling track */}
-      <motion.div
-        animate={{ x: xKeyframes }}
-        transition={loopTransition}
-        className="relative flex items-center justify-center scale-[0.72] sm:scale-[0.88] lg:scale-100"
-      >
+      {/* Responsive scale wrapper keeps both orb size and rolling travel inside smaller viewports */}
+      <div className="scale-[0.55] sm:scale-[0.82] lg:scale-100 origin-right">
+        {/* Horizontal rolling track */}
+        <motion.div
+          animate={{ x: xKeyframes }}
+          transition={loopTransition}
+          className="relative flex items-center justify-center"
+        >
         {/* Soft under-shadow & crimson atmospheric glow */}
         <motion.div
           animate={{
@@ -103,7 +124,7 @@ export const RollingOrb: React.FC<RollingOrbProps> = ({
           <motion.div
             animate={{ rotate: surfaceRotateKeyframes }}
             transition={{
-              duration: 16,
+              duration,
               delay: phaseDelay,
               repeat: Infinity,
               ease: 'linear',
@@ -166,7 +187,8 @@ export const RollingOrb: React.FC<RollingOrbProps> = ({
             }}
           />
         </motion.div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { siteConfig } from '../data/siteConfig';
+import { usePointerCapability } from '../hooks/usePointerCapability';
 
 export const Navbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string>('about');
+  const { canHover } = usePointerCapability();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,10 +83,10 @@ export const Navbar: React.FC = () => {
           {siteConfig.brandName}
         </a>
 
-        {/* Desktop Navigation */}
+        {/* Desktop & Tablet Navigation (three links always visible at >=768px) */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden md:flex items-center gap-10"
+          className="hidden md:flex items-center gap-8 lg:gap-10"
         >
           {siteConfig.headerNav.map((item) => {
             const isActive = activeId === item.id;
@@ -96,7 +98,9 @@ export const Navbar: React.FC = () => {
                 className={`font-satoshi text-[16px] font-light tracking-wide transition-colors duration-150 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E61C45] rounded-sm py-1 ${
                   isActive
                     ? 'text-[#E61C45]'
-                    : 'text-zinc-200 hover:text-[#E61C45]'
+                    : canHover
+                      ? 'text-zinc-200 hover:text-[#E61C45]'
+                      : 'text-zinc-200'
                 }`}
               >
                 {item.label}

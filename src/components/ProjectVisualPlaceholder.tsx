@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 import { ProjectShowcase } from '../data/projects';
+import { usePointerCapability } from '../hooks/usePointerCapability';
 
 interface ProjectVisualPlaceholderProps {
   project: ProjectShowcase;
@@ -15,17 +16,24 @@ export const ProjectVisualPlaceholder: React.FC<ProjectVisualPlaceholderProps> =
   project,
 }) => {
   const [imageFailed, setImageFailed] = useState(false);
+  const { canHover } = usePointerCapability();
   const hasValidImage = Boolean(project.imageSrc.trim()) && !imageFailed;
 
   if (hasValidImage) {
     return (
-      <div className="group relative w-full rounded-[20px] overflow-hidden shadow-2xl transition-transform duration-300 ease-out hover:-translate-y-[3px]">
+      <div
+        className={`group relative w-full rounded-[20px] overflow-hidden shadow-2xl transition-transform duration-300 ease-out ${
+          canHover ? 'hover:-translate-y-[3px]' : ''
+        }`}
+      >
         <img
           src={project.imageSrc}
           alt={project.imageAlt}
           referrerPolicy="no-referrer"
           onError={() => setImageFailed(true)}
-          className="block w-full h-auto object-cover transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+          className={`block w-full h-auto object-cover transition-transform duration-300 ease-out ${
+            canHover ? 'group-hover:scale-[1.04]' : ''
+          }`}
         />
       </div>
     );

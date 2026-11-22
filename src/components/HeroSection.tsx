@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, Variants } from 'motion/react';
 import { siteConfig } from '../data/siteConfig';
+import { usePointerCapability } from '../hooks/usePointerCapability';
 import { RollingOrb } from './RollingOrb';
 
 type MobileSequenceStep =
@@ -117,6 +118,7 @@ const InteractiveHeroLetter: React.FC<InteractiveLetterProps> = ({
     >
       {isAccentO ? (
         <motion.span
+          key={isMobileOrTouch ? 'o-auto' : 'o-hover'}
           className="inline-block text-[#E61C45] cursor-default"
           initial={{ color: '#E61C45', y: 0 }}
           animate={
@@ -154,6 +156,7 @@ const InteractiveHeroLetter: React.FC<InteractiveLetterProps> = ({
         </motion.span>
       ) : (
         <motion.span
+          key={isMobileOrTouch ? 'char-auto' : 'char-hover'}
           className="inline-block text-white cursor-default"
           initial={{ color: '#FFFFFF' }}
           animate={
@@ -184,18 +187,6 @@ const InteractiveHeroLetter: React.FC<InteractiveLetterProps> = ({
   );
 };
 
-const detectMobileOrTouch = () => {
-  if (typeof window === 'undefined') return false;
-  const hasNoHover = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-  const isSmallScreen = window.innerWidth < 768;
-  return hasNoHover || isSmallScreen;
-};
-
-const detectReducedMotion = () => {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-};
-
 export const HeroSection: React.FC = () => {
   const { designer } = siteConfig;
   const firstLineChars = Array.from(designer.firstName);
@@ -203,34 +194,12 @@ export const HeroSection: React.FC = () => {
   const secondLineChars = Array.from(secondLineText);
   const accentIndex = designer.lastNamePrefix.length;
 
-  const [isMobileOrTouch, setIsMobileOrTouch] = useState<boolean>(detectMobileOrTouch);
-  const [prefersReducedMotion, setPrefersReducedMotion] =
-    useState<boolean>(detectReducedMotion);
+  const { canHover, prefersReducedMotion } = usePointerCapability();
+  const isTouchOnlyMode = !canHover;
   const [mobileStep, setMobileStep] = useState<MobileSequenceStep>('default-rest');
 
   useEffect(() => {
-    const hoverQuery = window.matchMedia('(hover: none), (pointer: coarse)');
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    const updateDeviceState = () => {
-      setIsMobileOrTouch(hoverQuery.matches || window.innerWidth < 768);
-      setPrefersReducedMotion(motionQuery.matches);
-    };
-
-    updateDeviceState();
-    window.addEventListener('resize', updateDeviceState);
-    hoverQuery.addEventListener('change', updateDeviceState);
-    motionQuery.addEventListener('change', updateDeviceState);
-
-    return () => {
-      window.removeEventListener('resize', updateDeviceState);
-      hoverQuery.removeEventListener('change', updateDeviceState);
-      motionQuery.removeEventListener('change', updateDeviceState);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isMobileOrTouch || prefersReducedMotion) {
+    if (!isTouchOnlyMode || prefersReducedMotion) {
       setMobileStep('default-rest');
       return;
     }
@@ -273,50 +242,67 @@ export const HeroSection: React.FC = () => {
       cancelled = true;
       window.clearTimeout(timerId);
     };
-  }, [isMobileOrTouch, prefersReducedMotion]);
+  }, [isTouchOnlyMode, prefersReducedMotion]);
 
   return (
     <section id="about" className="relative z-10 w-full">
-      {/* Right-edge 3D rolling crimson & black Orb */}
-      <RollingOrb className="absolute right-6 sm:right-12 lg:right-20 -bottom-12 sm:-bottom-16 lg:-bottom-20 z-0" />
+      {/* Right-edge 3D rolling crimson & black Orb #1 */}
+      <RollingOrb
+        duration={16}
+        direction={1}
+        phaseDelay={0}
+        className="absolute right-4 sm:right-12 lg:right-20 -bottom-10 sm:-bottom-16 lg:-bottom-20 z-0"
+      />
 
       <div className="relative mx-auto max-w-[1280px] px-6 sm:px-10 pt-10 pb-24 sm:pt-14 sm:pb-36 lg:pt-16 lg:pb-44">
-        {/* Figma decorative shapes around Mark Noble */}
-        {/* Oval / elongated rectangular shapes: slow 12–16s rolling rotation */}
+        {/* Flat 2D decorative shapes around Mark Noble — visible across desktop, tablet & mobile */}
+        {/* 1. Flat rounded rectangle: independent clockwise rotation + subtle vertical float */}
         <motion.img
           src="/assets/aistudio/Rectangle_367_1010c8ab.png"
           alt=""
           aria-hidden="true"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
-          className="hidden sm:block pointer-events-none select-none absolute right-[18%] lg:right-[19%] top-[100px] lg:top-[155px] w-[42px] lg:w-[55px] h-auto z-0"
+          animate={{ rotate: [0, 360], y: [0, -8, 0] }}
+          transition={{
+            rotate: { duration: 14, repeat: Infinity, ease: 'linear' },
+            y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut' },
+          }}
+          className="pointer-events-none select-none absolute right-[15%] sm:right-[18%] lg:right-[19%] top-[8px] sm:top-[76px] lg:top-[155px] w-[22px] sm:w-[40px] lg:w-[55px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
         />
-        {/* Circular / radial shape: gentle 8–12s counter-clockwise rotation */}
+        {/* 2. Flat concentric circles: independent counter-clockwise rotation + gentle pulse */}
         <motion.img
           src="/assets/aistudio/Group_1707478324_e26d13d5.png"
           alt=""
           aria-hidden="true"
-          animate={{ rotate: [0, -360] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-          className="hidden sm:block pointer-events-none select-none absolute right-[4%] lg:right-[6.5%] top-[72px] lg:top-[110px] w-[64px] lg:w-[83px] h-auto z-0"
+          animate={{ rotate: [0, -360], scale: [1, 1.05, 1] }}
+          transition={{
+            rotate: { duration: 10.5, repeat: Infinity, ease: 'linear' },
+            scale: { duration: 4.8, repeat: Infinity, ease: 'easeInOut' },
+          }}
+          className="pointer-events-none select-none absolute right-[3%] sm:right-[4%] lg:right-[6.5%] top-[4px] sm:top-[60px] lg:top-[110px] w-[40px] sm:w-[64px] lg:w-[83px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
         />
-        {/* Oval / elongated rectangular shape: slow 15s rolling rotation */}
+        {/* 3. Flat oval / elongated capsule: independent clockwise rotation + subtle horizontal drift */}
         <motion.img
           src="/assets/aistudio/Rectangle_369_1010c8ab.png"
           alt=""
           aria-hidden="true"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-          className="hidden sm:block pointer-events-none select-none absolute right-[6%] lg:right-[9%] top-[235px] lg:top-[320px] w-[42px] lg:w-[55px] h-auto z-0"
+          animate={{ rotate: [0, 360], x: [0, 7, 0, -5, 0] }}
+          transition={{
+            rotate: { duration: 16.5, repeat: Infinity, ease: 'linear' },
+            x: { duration: 6.5, repeat: Infinity, ease: 'easeInOut' },
+          }}
+          className="pointer-events-none select-none absolute left-[3%] sm:left-auto sm:right-[6%] lg:right-[9%] top-[168px] sm:top-[220px] lg:top-[320px] w-[22px] sm:w-[40px] lg:w-[55px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
         />
-        {/* Circular / radial shape: gentle 11s counter-clockwise rotation */}
+        {/* 4. Flat concentric circles: independent counter-clockwise rotation + gentle vertical sway */}
         <motion.img
           src="/assets/aistudio/Group_1707478319_25e925e1.png"
           alt=""
           aria-hidden="true"
-          animate={{ rotate: [0, -360] }}
-          transition={{ duration: 11, repeat: Infinity, ease: 'linear' }}
-          className="hidden md:block pointer-events-none select-none absolute right-[1%] lg:right-[3%] top-[265px] lg:top-[360px] w-[66px] lg:w-[83px] h-auto z-0"
+          animate={{ rotate: [0, -360], y: [0, 7, 0] }}
+          transition={{
+            rotate: { duration: 11.5, repeat: Infinity, ease: 'linear' },
+            y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+          }}
+          className="pointer-events-none select-none absolute right-[4%] sm:right-[1.5%] lg:right-[3%] bottom-[64px] sm:bottom-auto sm:top-[265px] lg:top-[360px] w-[42px] sm:w-[64px] lg:w-[83px] h-auto z-0 brightness-[2.1] contrast-[1.15]"
         />
 
         <div className="relative z-10 mx-auto flex w-full flex-col items-center">
@@ -343,7 +329,7 @@ export const HeroSection: React.FC = () => {
                   key={`first-${idx}`}
                   char={char}
                   isLast={idx === firstLineChars.length - 1}
-                  isMobileOrTouch={isMobileOrTouch}
+                  isMobileOrTouch={isTouchOnlyMode}
                   mobileStep={mobileStep}
                   prefersReducedMotion={prefersReducedMotion}
                 />
@@ -356,7 +342,7 @@ export const HeroSection: React.FC = () => {
                   char={char}
                   isAccentO={idx === accentIndex}
                   isLast={idx === secondLineChars.length - 1}
-                  isMobileOrTouch={isMobileOrTouch}
+                  isMobileOrTouch={isTouchOnlyMode}
                   mobileStep={mobileStep}
                   prefersReducedMotion={prefersReducedMotion}
                 />
@@ -364,8 +350,8 @@ export const HeroSection: React.FC = () => {
             </span>
           </motion.h1>
 
-          {/* Subtitle left (Satoshi Medium 22px) + 271px desktop gap + short bio right (Satoshi Light 16px) */}
-          <div className="mt-7 sm:mt-10 mx-auto flex flex-col items-center text-center gap-5 sm:flex-row sm:items-start sm:justify-center sm:text-left sm:gap-14 lg:gap-[271px]">
+          {/* Subtitle + short bio: stacked centered on mobile & tablet, side-by-side with 271px gap on desktop */}
+          <div className="mt-7 sm:mt-10 mx-auto flex flex-col items-center text-center gap-5 lg:flex-row lg:items-start lg:justify-center lg:text-left lg:gap-[271px]">
             <PerCharText
               text={designer.role}
               stagger={0.022}
