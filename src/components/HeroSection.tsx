@@ -94,6 +94,14 @@ const InteractiveHeroLetter: React.FC<InteractiveLetterProps> = ({
   mobileStep = 'default-rest',
   prefersReducedMotion = false,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isMobileOrTouch) {
+      setIsHovered(false);
+    }
+  }, [isMobileOrTouch]);
+
   const isBouncingStep =
     mobileStep === 'o-bounce-pink' || mobileStep === 'o-bounce-white';
   const isWhiteO =
@@ -110,6 +118,19 @@ const InteractiveHeroLetter: React.FC<InteractiveLetterProps> = ({
     y: isBouncingStep && !prefersReducedMotion ? [0, -18, 0, -8, 0] : 0,
   });
 
+  const handlePointerEnter = (e: React.PointerEvent<HTMLSpanElement>) => {
+    if (
+      e.pointerType === 'mouse' ||
+      (!isMobileOrTouch && e.pointerType !== 'touch')
+    ) {
+      setIsHovered(true);
+    }
+  };
+
+  const handlePointerLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <motion.span
       aria-hidden="true"
@@ -118,66 +139,64 @@ const InteractiveHeroLetter: React.FC<InteractiveLetterProps> = ({
     >
       {isAccentO ? (
         <motion.span
-          key={isMobileOrTouch ? 'o-auto' : 'o-hover'}
           className="inline-block text-[#E61C45] cursor-default"
           initial={{ color: '#E61C45', y: 0 }}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          onPointerCancel={handlePointerLeave}
           animate={
-            isMobileOrTouch
-              ? getMobileOAnimation()
-              : { color: '#E61C45', y: 0 }
-          }
-          transition={
-            isMobileOrTouch
-              ? isBouncingStep
-                ? {
-                    y: { duration: 0.7, ease: 'easeOut' },
-                    color: { duration: 0.2 },
-                  }
-                : {
-                    color: { duration: 0.6, ease: 'easeInOut' },
-                    y: { duration: 0.2 },
-                  }
-              : { duration: 0.2, ease: 'easeOut' }
-          }
-          whileHover={
-            !isMobileOrTouch
+            isHovered
               ? {
                   color: '#FFFFFF',
-                  y: [0, -24, 0, -10, 0],
-                  transition: {
-                    color: { duration: 0.18, ease: 'easeOut' },
-                    y: { duration: 0.55, ease: 'easeOut' },
-                  },
+                  y: prefersReducedMotion ? 0 : [0, -24, 0, -10, 0],
                 }
-              : undefined
+              : isMobileOrTouch
+                ? getMobileOAnimation()
+                : { color: '#E61C45', y: 0 }
+          }
+          transition={
+            isHovered
+              ? {
+                  color: { duration: 0.18, ease: 'easeOut' },
+                  y: { duration: 0.55, ease: 'easeOut' },
+                }
+              : isMobileOrTouch
+                ? isBouncingStep
+                  ? {
+                      y: { duration: 0.7, ease: 'easeOut' },
+                      color: { duration: 0.2 },
+                    }
+                  : {
+                      color: { duration: 0.6, ease: 'easeInOut' },
+                      y: { duration: 0.2 },
+                    }
+                : { duration: 0.2, ease: 'easeOut' }
           }
         >
           {char}
         </motion.span>
       ) : (
         <motion.span
-          key={isMobileOrTouch ? 'char-auto' : 'char-hover'}
           className="inline-block text-white cursor-default"
           initial={{ color: '#FFFFFF' }}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          onPointerCancel={handlePointerLeave}
           animate={
-            isMobileOrTouch
-              ? {
-                  color: isPinkLetters ? '#E61C45' : '#FFFFFF',
-                }
-              : { color: '#FFFFFF' }
+            isHovered
+              ? { color: '#E61C45' }
+              : isMobileOrTouch
+                ? {
+                    color: isPinkLetters ? '#E61C45' : '#FFFFFF',
+                  }
+                : { color: '#FFFFFF' }
           }
           transition={
-            isMobileOrTouch
-              ? { duration: 0.6, ease: 'easeInOut' }
-              : { duration: 0.2, ease: 'easeOut' }
-          }
-          whileHover={
-            !isMobileOrTouch
-              ? {
-                  color: '#E61C45',
-                  transition: { duration: 0.18, ease: 'easeOut' },
-                }
-              : undefined
+            isHovered
+              ? { duration: 0.18, ease: 'easeOut' }
+              : isMobileOrTouch
+                ? { duration: 0.6, ease: 'easeInOut' }
+                : { duration: 0.18, ease: 'easeOut' }
           }
         >
           {char}
