@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 interface PointerCapabilityState {
   canHover: boolean;
+  isMobileViewport: boolean;
   prefersReducedMotion: boolean;
 }
 
@@ -11,11 +12,15 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
 const getInitialCanHover = (): boolean => {
   if (typeof window === 'undefined') return true;
-  if (window.innerWidth < 768) return false;
   return (
     window.matchMedia(PRIMARY_FINE_HOVER).matches ||
     window.matchMedia(ANY_FINE_HOVER).matches
   );
+};
+
+const getInitialMobileViewport = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768;
 };
 
 const getInitialReducedMotion = (): boolean => {
@@ -24,15 +29,16 @@ const getInitialReducedMotion = (): boolean => {
 };
 
 /**
- * Dynamically detects whether a hover-capable fine pointer (mouse or trackpad)
- * is available across desktop, tablet, and mobile viewports.
- * - Mobile (< 768px): always returns `canHover: false` to preserve mobile behaviour.
- * - Tablet (>= 768px): dynamically switches between touch mode and mouse/trackpad
- *   hover mode as peripherals are connected or disconnected.
- * - Desktop: stays hover-enabled when a fine pointer is present.
+ * Dynamically detects actual pointer & hover input capabilities using CSS
+ * media queries (`(hover: hover) and (pointer: fine)`,
+ * `(any-hover: hover) and (any-pointer: fine)`) and live PointerEvent signals,
+ * without relying on screen width alone to determine hover availability.
  */
 export const usePointerCapability = (): PointerCapabilityState => {
   const [canHover, setCanHover] = useState<boolean>(getInitialCanHover);
+  const [isMobileViewport, setIsMobileViewport] = useState<boolean>(
+    getInitialMobileViewport
+  );
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(
     getInitialReducedMotion
   );
@@ -45,12 +51,14 @@ export const usePointerCapability = (): PointerCapabilityState => {
     let mousePointerActive = false;
 
     const recompute = () => {
-      const isMobileViewport = window.innerWidth < 768;
       const hasFineHoverMedia =
         primaryFineQuery.matches || anyFineQuery.matches;
+      const nextCanHover = hasFineHoverMedia || mousePointerActive;
 
-      setCanHover(!isMobileViewport && (hasFineHoverMedia || mousePointerActive));
+      setCanHover(nextCanHover);
+      setIsMobileViewport(window.innerWidth < 768);
       setPrefersReducedMotion(motionQuery.matches);
+      document.documentElement.dataset.pointerHover = String(nextCanHover);
     };
 
     const handleMediaChange = () => {
@@ -95,5 +103,5 @@ export const usePointerCapability = (): PointerCapabilityState => {
     };
   }, []);
 
-  return { canHover, prefersReducedMotion };
+  return { canHover, isMobileViewport, prefersReducedMotion };
 };

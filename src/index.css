@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  @media (any-hover: hover) and (any-pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  :root[data-pointer-hover="true"] &:hover {
+    @slot;
+  }
+}
+
 @theme {
   --font-display: "Montserrat", system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
